@@ -2,9 +2,13 @@ name: app-build-action-dev
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "dev_v*"
+    inputs:
+      branch:
+        description: "branch"
+        type: string
+        required: true
+        default: "master"
+
 
 jobs:
   # 打包Android、iOS、Mac
@@ -18,7 +22,7 @@ jobs:
       # 签出代码
       - uses: actions/checkout@v4
         with:
-          ref: dev
+          ref: ${{ inputs.branch }}
 
       # APK签名设置
       - name: Download Android keystore
